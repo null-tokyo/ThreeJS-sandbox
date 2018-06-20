@@ -1,0 +1,25 @@
+{
+    "base": {
+        "url": "//example.com",
+        "title": "サイトのタイトル",
+        "separator": " | ", 
+        "description": "ディスクリプション",
+        "ogType": "website",
+        "ogLocale": "ja_JP",
+        "twType": "summary",
+        "twSite": "@account"
+    },
+    "pages": {
+        "index": {
+            "title": "TOPページ",
+            "description": "TOPページのディスクリプション",
+            "keywords": "TOPページのキーワード"
+        },
+        "about": {
+            "url": "/about",
+            "title": "ABOUT",
+            "description": "ABOUTのディスクリプション",
+            "keywords": "ABOUTページのキーワード"
+        }
+    }
+}
