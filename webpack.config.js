@@ -46,6 +46,9 @@ module.exports = {
                 test: /\.js$/,
                 use: [
                     {
+                        loader: 'cache-loader',
+                    },
+                    {
                         loader: 'babel-loader',
                         options: {
                             presets: [

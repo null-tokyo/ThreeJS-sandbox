@@ -26,6 +26,7 @@
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.7.0",
     "browser-sync": "^2.24.4",
+    "cache-loader": "^1.2.2",
     "css-loader": "^0.28.11",
     "csswring": "^6.0.3",
     "eslint": "^4.19.1",
