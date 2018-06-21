@@ -5,7 +5,7 @@ import LongTaskChecker from './debug/LongTaskChecker';
 //import {throtlle, debounce} from 'lodash';
 import * as THREE from 'three';
 import param from './const/param';
-import Canvas from './webgl/Canvas';
+import Core from './webgl/Core';
 import RenderTarget from './webgl/RenderTarget';
 import postVert from '../glsl/postVert.vert';
 import postFrag from '../glsl/postFrag.frag';
@@ -17,11 +17,11 @@ let width = window.innerWidth;
 let height = window.innerHeight;
 
 //renderer / mainScene / camera
-const canvas = new Canvas();
-canvas.init();
-const mainCamera = canvas.createCamera();
-canvas.updatePerspectiveCamera(mainCamera, width ,height);
-canvas.camera = mainCamera;
+const core = new Core();
+core.init();
+const mainCamera = core.createCamera();
+core.updatePerspectiveCamera(mainCamera, width ,height);
+core.camera = mainCamera;
 
 //container
 const container =  new THREE.Object3D();
@@ -30,7 +30,7 @@ const container =  new THREE.Object3D();
 const geometory = new THREE.BoxGeometry(200, 200, 200);
 const material = new THREE.MeshNormalMaterial();
 const box = new THREE.Mesh(geometory, material);
-canvas.mainScene.add(box);
+core.mainScene.add(box);
 container.add(box);
 
 const renderTarget = new RenderTarget();
@@ -50,7 +50,7 @@ const dest = new THREE.Mesh(
 );
 
 dest.scale.set(width, height, 1);
-canvas.mainScene.add(dest);
+core.mainScene.add(dest);
 
 const draw = () => {
     box.rotation.x += 0.001 * param.box.speedX.value;
@@ -60,8 +60,8 @@ const draw = () => {
 const tick = () => {
     requestAnimationFrame(tick);
     draw();
-    renderTarget.render(canvas.renderer, mainCamera);
-    canvas.update();
+    renderTarget.render(core.renderer, mainCamera);
+    core.update();
 }
 
 tick();

@@ -1,5 +1,8 @@
 import * as THREE from 'three';
 
+/**
+ * RenderTarget
+ */
 class RenderTarget extends THREE.Scene{
     constructor() { 
       super();
