@@ -7,12 +7,17 @@ class Param {
             speedX:{value:20, min:1, max:100},
             speedY:{value:20, min:1, max:100}
         };
+        this.cube = {
+            speedX:{value:20, min:1, max:100},
+            speedY:{value:20, min:1, max:100}
+        };
         if(!conf.debugMode) return;
         this.init();
     }
     init() {
         this.gui = new dat.GUI();
         this.addGUI(this.box, 'box');
+        this.addGUI(this.cube, 'cube');
         document.querySelector('.dg').style.zIndex = 9999;
     }
     addGUI (obj, folderName) {

@@ -37,7 +37,7 @@ module.exports = {
                 ]
             },
             {
-                test: /\.glsl$/,
+                test: /\.(frag|vert|glsl)$/,
                 use: {
                     loader: 'webpack-glsl-loader'
                 }

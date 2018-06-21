@@ -5,44 +5,63 @@ import LongTaskChecker from './debug/LongTaskChecker';
 //import {throtlle, debounce} from 'lodash';
 import * as THREE from 'three';
 import param from './const/param';
+import Canvas from './webgl/Canvas';
+import RenderTarget from './webgl/RenderTarget';
+import postVert from '../glsl/postVert.vert';
+import postFrag from '../glsl/postFrag.frag';
 
-new SiteSpeedChecker().getAll();
-new LongTaskChecker().observe();
+// new SiteSpeedChecker().getAll();
+// new LongTaskChecker().observe();
 
-const canvas = document.getElementById("canvas");
-let width = canvas.clientWidth;
-let height = canvas.clientHeight;
+let width = window.innerWidth;
+let height = window.innerHeight;
 
-const renderer = new THREE.WebGLRenderer({
-    canvas: document.getElementById("canvas")
-});
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(width, height);
+//renderer / mainScene / camera
+const canvas = new Canvas();
+canvas.init();
+const mainCamera = canvas.createCamera();
+canvas.updatePerspectiveCamera(mainCamera, width ,height);
+canvas.camera = mainCamera;
 
-const scene = new THREE.Scene();
+//container
+const container =  new THREE.Object3D();
 
-const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 2000);
-camera.position.set(0, 0, +1000);
-
-const geometory = new THREE.BoxGeometry(400, 400, 400);
+// Box
+const geometory = new THREE.BoxGeometry(200, 200, 200);
 const material = new THREE.MeshNormalMaterial();
 const box = new THREE.Mesh(geometory, material);
+canvas.mainScene.add(box);
+container.add(box);
 
-scene.add(box);
+const renderTarget = new RenderTarget();
+renderTarget.resize(width, height);
 
-const update = () => {
+renderTarget.add(container);
+const dest = new THREE.Mesh(
+  new THREE.PlaneBufferGeometry(1, 1),
+  new THREE.ShaderMaterial({
+    vertexShader   : postVert,
+    fragmentShader : postFrag,
+    uniforms:{
+      tDiffuse  : {value: renderTarget.getTexture() },
+      time   : {value:0}
+    }
+  })
+);
+
+dest.scale.set(width, height, 1);
+canvas.mainScene.add(dest);
+
+const draw = () => {
     box.rotation.x += 0.001 * param.box.speedX.value;
     box.rotation.y += 0.001 * param.box.speedY.value;
 }
 
-const draw = () => {
-    renderer.render(scene, camera);
-}
-
 const tick = () => {
     requestAnimationFrame(tick);
-    update();
     draw();
+    renderTarget.render(canvas.renderer, mainCamera);
+    canvas.update();
 }
 
 tick();
