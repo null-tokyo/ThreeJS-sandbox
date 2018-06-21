@@ -6,6 +6,10 @@ module.exports = {
     script: {
         src: `${srcPath}/js/**/*.js`,
         dist: `${distPath}/js/`,
+        watch: [
+            `${srcPath}/js/**/*.js`,
+            `${srcPath}/glsl/**/*.+(vert|frag|glsl)`
+        ]
     },
     ejs: {
         src: `${srcPath}/view/**/[!_]*.ejs`,
