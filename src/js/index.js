@@ -7,8 +7,8 @@ import * as THREE from 'three';
 import param from './const/param';
 import Core from './webgl/Core';
 import RenderTarget from './webgl/RenderTarget';
-import postVert from '../glsl/postVert.vert';
-import postFrag from '../glsl/postFrag.frag';
+import postVert from '../glsl/posteffect.vert';
+import postFrag from '../glsl/posteffect.frag';
 
 // new SiteSpeedChecker().getAll();
 // new LongTaskChecker().observe();
