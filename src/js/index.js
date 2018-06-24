@@ -9,6 +9,8 @@ import Core from './webgl/Core';
 import RenderTarget from './webgl/RenderTarget';
 import postVert from '../glsl/posteffect.vert';
 import postFrag from '../glsl/posteffect.frag';
+import matVert from '../glsl/material.vert';
+import matFrag from '../glsl/material.frag';
 
 // new SiteSpeedChecker().getAll();
 // new LongTaskChecker().observe();
@@ -34,15 +36,23 @@ core.mainScene.add( light );
 container.add(light);
 
 // Box
-const geometory = new THREE.BoxGeometry(150, 150, 150);
-const material = new THREE.MeshLambertMaterial({color: 0xf18a66});
-/**
+//const geometory = new THREE.BoxGeometry(150, 150, 150);
+const geometory = new THREE.SphereBufferGeometry(150, 50, 50);
+//const material = new THREE.MeshLambertMaterial({color: 0xf18a66});
+
 const material = new THREE.ShaderMaterial({
   vertexShader   : matVert,
   fragmentShader : matFrag,
-  uniforms: uniforms
+  uniforms: {
+    time : {value:0},
+    resolution: {type: 'v2', value: new THREE.Vector2(width, height) },
+    lightPos: {type: 'v2', value: light.position },
+  },
+  extensions: {
+    derivatives: true
+  }
 });
-*/
+
 const box = new THREE.Mesh(geometory, material);
 core.mainScene.add(box);
 container.add(box);
@@ -71,11 +81,14 @@ const dest = new THREE.Mesh(
 dest.scale.set(width, height, 1);
 core.mainScene.add(dest);
 
+console.log(dest.material.uniforms);
+
 const draw = () => {
-    uniforms.time.value += clock.getDelta();
-    uniforms.noiseForce.value = param.effect.noiseForce.value;
-    box.rotation.x += 0.001 * param.box.speedX.value;
-    box.rotation.y += 0.001 * param.box.speedY.value;
+  material.uniforms.time.value += clock.getDelta();
+  uniforms.time.value += clock.getDelta();
+  uniforms.noiseForce.value = param.effect.noiseForce.value;
+  box.rotation.x += 0.001 * param.box.speedX.value;
+  box.rotation.y += 0.001 * param.box.speedY.value;
 }
 
 const tick = () => {
