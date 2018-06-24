@@ -70,6 +70,7 @@ class Core {
             premultipliedAlpha : false
         });
         this.renderer.autoClear = true;
+        this.renderer.setClearColor( 0xffffff, 1 );
         this.renderer.setPixelRatio(window.devicePixelRatio || 1);
     }
     /**

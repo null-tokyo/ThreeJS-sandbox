@@ -15,6 +15,7 @@ import postFrag from '../glsl/posteffect.frag';
 
 let width = window.innerWidth;
 let height = window.innerHeight;
+let clock =  new THREE.Clock();
 
 //renderer / mainScene / camera
 const core = new Core();
@@ -36,16 +37,21 @@ container.add(box);
 const renderTarget = new RenderTarget();
 renderTarget.resize(width, height);
 
+
+const uniforms = {
+  tDiffuse  : {value: renderTarget.getTexture()},
+  time   : {value:0},
+  resolution: {type: 'v2', value: new THREE.Vector2(width, height) },
+  noiseForce: {value: 0}
+}
+
 renderTarget.add(container);
 const dest = new THREE.Mesh(
   new THREE.PlaneBufferGeometry(1, 1),
   new THREE.ShaderMaterial({
     vertexShader   : postVert,
     fragmentShader : postFrag,
-    uniforms:{
-      tDiffuse  : {value: renderTarget.getTexture() },
-      time   : {value:0}
-    }
+    uniforms: uniforms
   })
 );
 
@@ -53,6 +59,8 @@ dest.scale.set(width, height, 1);
 core.mainScene.add(dest);
 
 const draw = () => {
+    uniforms.time.value += clock.getDelta();
+    uniforms.noiseForce.value = param.effect.noiseForce.value;
     box.rotation.x += 0.001 * param.box.speedX.value;
     box.rotation.y += 0.001 * param.box.speedY.value;
 }
