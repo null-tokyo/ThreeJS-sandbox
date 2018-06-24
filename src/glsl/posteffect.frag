@@ -12,8 +12,9 @@ varying vec2 vUv;
 @import ./effect/glitch;
 
 void main () {
-    vec4 c = texture2D(tDiffuse, vUv);
-    vec4 g = glitch(tDiffuse, vUv, time);
-    vec3 n = noiseEffect(vUv * resolution, time, noiseForce);
+    vec2 uv = vUv;
+    vec4 c = texture2D(tDiffuse, uv);
+    vec4 g = glitch(tDiffuse, uv, time);
+    vec3 n = noiseEffect(uv * resolution, time, noiseForce);
     gl_FragColor = vec4(vec3(g.rgb - n), c.a);
 }

@@ -27,9 +27,22 @@ core.camera = mainCamera;
 //container
 const container =  new THREE.Object3D();
 
+//light
+var light = new THREE.DirectionalLight(0xffffff);
+light.position.set(1, 1, 1).normalize();
+core.mainScene.add( light );
+container.add(light);
+
 // Box
-const geometory = new THREE.BoxGeometry(200, 200, 200);
-const material = new THREE.MeshNormalMaterial();
+const geometory = new THREE.BoxGeometry(150, 150, 150);
+const material = new THREE.MeshLambertMaterial({color: 0xf18a66});
+/**
+const material = new THREE.ShaderMaterial({
+  vertexShader   : matVert,
+  fragmentShader : matFrag,
+  uniforms: uniforms
+});
+*/
 const box = new THREE.Mesh(geometory, material);
 core.mainScene.add(box);
 container.add(box);
