@@ -7,6 +7,7 @@ import * as THREE from 'three';
 import param from './const/param';
 import Core from './webgl/Core';
 import RenderTarget from './webgl/RenderTarget';
+import InstancingMesh from './webgl/InstancingMesh';
 import postVert from '../glsl/posteffect.vert';
 import postFrag from '../glsl/posteffect.frag';
 import matVert from '../glsl/material.vert';
@@ -37,8 +38,24 @@ container.add(light);
 
 // Box
 //const geometory = new THREE.BoxGeometry(150, 150, 150);
-const geometory = new THREE.SphereBufferGeometry(150, 1000, 1000);
+const geometory = new THREE.SphereBufferGeometry(150, 100, 100);
 //const material = new THREE.MeshLambertMaterial({color: 0xf18a66});
+
+const generateHeightmap = ( dt_size ) => {
+  let data_arr = new Float32Array( dt_size * dt_size * 3 );
+  let length = dt_size * dt_size;
+
+  for ( let i = 0; i < length; i ++ ) {
+    let val = THREE.Math.randFloat( 0, 1 );
+    data_arr[ i * 3 + 0 ] = val;
+    data_arr[ i * 3 + 1 ] = val;
+    data_arr[ i * 3 + 2 ] = val;
+  }
+
+  let texture = new THREE.DataTexture( data_arr, dt_size, dt_size, THREE.RGBFormat, THREE.FloatType );
+  texture.needsUpdate = true;
+  return texture;
+};
 
 const material = new THREE.ShaderMaterial({
   vertexShader   : matVert,
@@ -55,9 +72,18 @@ const material = new THREE.ShaderMaterial({
   }
 });
 
-const box = new THREE.Mesh(geometory, material);
-core.mainScene.add(box);
-container.add(box);
+// const box = new THREE.Mesh(geometory, material);
+// core.mainScene.add(box);
+// container.add(box);
+
+const instanceBox = new InstancingMesh();
+instanceBox.material.uniforms.time = {type: 'f', value: 0 };
+instanceBox.material.uniforms.lightPos = {type: 'v2', value: light.position };
+instanceBox.material.uniforms.toonTex = {type: 't', value: new THREE.TextureLoader().load( '/images/toon.png' ) };
+instanceBox.material.extensions.derivatives = true;
+
+core.mainScene.add(instanceBox);
+container.add(instanceBox);
 
 const renderTarget = new RenderTarget();
 renderTarget.resize(width, height);
@@ -65,6 +91,7 @@ renderTarget.resize(width, height);
 
 const uniforms = {
   tDiffuse  : {value: renderTarget.getTexture()},
+  tDisp: {type: 't', value: generateHeightmap(32) },
   time   : {value:0},
   resolution: {type: 'v2', value: new THREE.Vector2(width, height) },
   noiseForce: {value: 0}
@@ -84,11 +111,14 @@ dest.scale.set(width, height, 1);
 core.mainScene.add(dest);
 
 const draw = () => {
-  material.uniforms.time.value += clock.getDelta();
-  box.rotation.x += param.box.speedX.value * 0.001;
-  box.rotation.y += param.box.speedY.value * 0.001;
-  uniforms.time.value += clock.getDelta();
+
+  //material.uniforms.time.value += clock.getDelta();
+  // box.rotation.x += param.box.speedX.value * 0.001;
+  // box.rotation.y += param.box.speedY.value * 0.001;
+  uniforms.time.value += 1 * 0.02;
   uniforms.noiseForce.value = param.effect.noiseForce.value;
+  instanceBox.rotation.y += 1 * 0.05;
+  instanceBox.material.uniforms.time.value = uniforms.time.value;
 }
 
 const tick = () => {

@@ -70,7 +70,7 @@ class Core {
             premultipliedAlpha : false
         });
         this.renderer.autoClear = true;
-        this.renderer.setClearColor( 0xffffff, 1 );
+        this.renderer.setClearColor( 0x888888, 1 );
         this.renderer.setPixelRatio(window.devicePixelRatio || 1);
         console.log(this.renderer.context.getExtension('OES_standard_derivatives'));
     }

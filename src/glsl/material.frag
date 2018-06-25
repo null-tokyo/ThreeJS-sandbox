@@ -14,8 +14,8 @@ varying vec3 vPos;
 void main () {
     vec4 color = vec4(0.9);
     vec3 normal = getNormal(vPos);
-    vec3 ca1 = diffuseToonColor(color.rgb, normal, vec3(0.0) - lightPos, toonTex);
+    vec3 ca1 = diffuseToonColor(color.rgb, normal, lightPos, toonTex);
     //vec3 ca2 = diffuseAmbLightColor(color.rgb, normal, vec3(1.0, 1.0, -1.0), vec3(0.7824, 0.983, 0.6234));
-    vec3 ca = ca1 * color.rgb + vec3(getSpecular(normal, normalize(vec3(0.0) - lightPos), eyeDirection));
+    vec3 ca = ca1 * color.rgb + vec3(getSpecular(normal, lightPos, eyeDirection));
     gl_FragColor = vec4(ca, color.a);
 }

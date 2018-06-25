@@ -9,6 +9,7 @@
     "no-console": 1
   },
   "env": {
-    "browser": true
+    "browser": true,
+    "es6": true
   }
 }
