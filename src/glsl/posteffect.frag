@@ -16,6 +16,5 @@ void main () {
     vec4 c = texture2D(tDiffuse, uv);
     vec4 g = glitch(tDiffuse, uv, time);
     vec3 n = noiseEffect(uv * resolution, time, noiseForce);
-    //gl_FragColor = vec4(vec3(g.rgb - n), c.a);
-    gl_FragColor = c;
+    gl_FragColor = vec4(vec3(g.rgb - n), c.a);
 }

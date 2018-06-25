@@ -20,3 +20,10 @@ float getSpecular(vec3 normal, vec3 lightPos, vec3 eyeDirection){
       vec3 halfLE = normalize(lightPos + eyeDirection);
       return pow(clamp(dot(normal, halfLE), 0.0, 1.0), 50.0);
 }
+
+//環境光源での影響を計算t
+vec3 diffuseToonColor(vec3 c, vec3 normal, vec3 lightPos, sampler2D tex) {
+      float diffuse = clamp(dot(normal, normalize(lightPos)), 0.0, 1.0);
+      vec4 color = texture2D(tex, vec2(diffuse, 0.0));
+      return color.rgb;
+}

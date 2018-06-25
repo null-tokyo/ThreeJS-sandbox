@@ -48,6 +48,7 @@ const material = new THREE.ShaderMaterial({
     resolution: {type: 'v2', value: new THREE.Vector2(width, height) },
     lightPos: {type: 'v2', value: light.position },
     eyeDirection: {type: 'v2', value: mainCamera.getWorldDirection() },
+    toonTex: {type: 't', value: new THREE.TextureLoader().load( '/images/toon.png' ) }
   },
   extensions: {
     derivatives: true
