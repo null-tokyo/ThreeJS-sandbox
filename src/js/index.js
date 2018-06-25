@@ -37,7 +37,7 @@ container.add(light);
 
 // Box
 //const geometory = new THREE.BoxGeometry(150, 150, 150);
-const geometory = new THREE.SphereBufferGeometry(150, 50, 50);
+const geometory = new THREE.SphereBufferGeometry(150, 1000, 1000);
 //const material = new THREE.MeshLambertMaterial({color: 0xf18a66});
 
 const material = new THREE.ShaderMaterial({
@@ -47,6 +47,7 @@ const material = new THREE.ShaderMaterial({
     time : {value:0},
     resolution: {type: 'v2', value: new THREE.Vector2(width, height) },
     lightPos: {type: 'v2', value: light.position },
+    eyeDirection: {type: 'v2', value: mainCamera.getWorldDirection() },
   },
   extensions: {
     derivatives: true
@@ -81,14 +82,12 @@ const dest = new THREE.Mesh(
 dest.scale.set(width, height, 1);
 core.mainScene.add(dest);
 
-console.log(dest.material.uniforms);
-
 const draw = () => {
   material.uniforms.time.value += clock.getDelta();
+  box.rotation.x += param.box.speedX.value * 0.001;
+  box.rotation.y += param.box.speedY.value * 0.001;
   uniforms.time.value += clock.getDelta();
   uniforms.noiseForce.value = param.effect.noiseForce.value;
-  box.rotation.x += 0.001 * param.box.speedX.value;
-  box.rotation.y += 0.001 * param.box.speedY.value;
 }
 
 const tick = () => {
