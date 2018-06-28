@@ -1,9 +1,3 @@
-/* debug */
-import SiteSpeedChecker from './debug/SiteSpeedChecker';
-import LongTaskChecker from './debug/LongTaskChecker';
-//import $ from 'jquery';
-//import {throtlle, debounce} from 'lodash';
-import * as THREE from 'three';
 import param from './const/param';
 import Core from './webgl/Core';
 import RenderTarget from './webgl/RenderTarget';
@@ -12,9 +6,6 @@ import postVert from '../glsl/posteffect.vert';
 import postFrag from '../glsl/posteffect.frag';
 import matVert from '../glsl/material.vert';
 import matFrag from '../glsl/material.frag';
-
-// new SiteSpeedChecker().getAll();
-// new LongTaskChecker().observe();
 
 let width = window.innerWidth;
 let height = window.innerHeight;
@@ -35,11 +26,6 @@ var light = new THREE.DirectionalLight(0xffffff);
 light.position.set(1, 1, 1).normalize();
 core.mainScene.add( light );
 container.add(light);
-
-// Box
-//const geometory = new THREE.BoxGeometry(150, 150, 150);
-const geometory = new THREE.SphereBufferGeometry(150, 100, 100);
-//const material = new THREE.MeshLambertMaterial({color: 0xf18a66});
 
 const generateHeightmap = ( dt_size ) => {
   let data_arr = new Float32Array( dt_size * dt_size * 3 );
@@ -71,10 +57,6 @@ const material = new THREE.ShaderMaterial({
     derivatives: true
   }
 });
-
-// const box = new THREE.Mesh(geometory, material);
-// core.mainScene.add(box);
-// container.add(box);
 
 const instanceBox = new InstancingMesh();
 instanceBox.material.uniforms.time = {type: 'f', value: 0 };
@@ -111,10 +93,6 @@ dest.scale.set(width, height, 1);
 core.mainScene.add(dest);
 
 const draw = () => {
-
-  //material.uniforms.time.value += clock.getDelta();
-  // box.rotation.x += param.box.speedX.value * 0.001;
-  // box.rotation.y += param.box.speedY.value * 0.001;
   uniforms.time.value += 1 * 0.02;
   uniforms.noiseForce.value = param.effect.noiseForce.value;
   instanceBox.rotation.y += 1 * 0.05;

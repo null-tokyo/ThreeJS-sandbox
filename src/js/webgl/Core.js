@@ -1,5 +1,3 @@
-import * as THREE from 'three';
-
 /**
  * Core
  * renderer / mainScene / cameraの管理

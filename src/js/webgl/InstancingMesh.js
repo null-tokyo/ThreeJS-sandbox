@@ -1,4 +1,3 @@
-import * as THREE from 'three';
 import instancingVert from '../../glsl/instancing.vert';
 import instancingfrag from '../../glsl/instancing.frag';
 
@@ -12,7 +11,7 @@ class InstancingMesh extends THREE.Mesh {
             new THREE.InstancedBufferGeometry(),
             new THREE.RawShaderMaterial()
         );
-        this.instances = 10000;
+        this.instances = 20000;
         this.bufferGeometory;
         this.attribute = {
         }
@@ -24,7 +23,7 @@ class InstancingMesh extends THREE.Mesh {
         this._setMaterial();
     }
     _createBufferGeometory () {
-        this.bufferGeometry = new THREE.BoxBufferGeometry( 50, 5, 5 );
+        this.bufferGeometry = new THREE.BoxBufferGeometry( 20, 1, 1 );
     }
     _setGeometory() {
         this.geometry.index = this.bufferGeometry.index;
@@ -39,7 +38,7 @@ class InstancingMesh extends THREE.Mesh {
             y = Math.random() * 50 - 25;
             z = Math.random() * 50 - 25;
             vector.set( x, y, z, 0 ).normalize();
-            vector.multiplyScalar( 80 ); // move out at least 5 units from center in current direction
+            vector.multiplyScalar( 280 ); // move out at least 5 units from center in current direction
             offsets.push( x + vector.x, y + vector.y, z + vector.z );
 
             // orientations

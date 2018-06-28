@@ -24,9 +24,7 @@ void main () {
     float s = 1.0;
     float b = grade;
 
-    vec3 color = hsb2rgb(vec3(h, s, b));
-    color = mix(color, g.rgb, 0.2);
-    color = clamp(color, 0.0, 1.0);
+    vec3 color = clamp(g.rgb, 0.0, 1.0);
 
     gl_FragColor = vec4(vec3(color - n * 0.9), c.a);
     //gl_FragColor = c;
