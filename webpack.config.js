@@ -4,11 +4,14 @@ const distDir = path.join(__dirname, '/dist');
 
 module.exports = {
     mode: 'development',
-    entry:  `${srcDir}/js/index.js`,
+    entry:  {
+        index: `${srcDir}/js/index.js`,
+        lib: `${srcDir}/js/lib.js`,
+    },
     output: {
         path: `${distDir}/js/`,
         publicPath: '/',
-        filename: 'main.js',
+        filename: '[name].js',
     },
     module: {
         rules: [
