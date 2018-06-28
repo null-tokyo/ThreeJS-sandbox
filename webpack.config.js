@@ -6,6 +6,7 @@ module.exports = {
     mode: 'development',
     entry:  {
         index: `${srcDir}/js/index.js`,
+        gl01: `${srcDir}/js/gl01.js`,
         lib: `${srcDir}/js/lib.js`,
     },
     output: {
