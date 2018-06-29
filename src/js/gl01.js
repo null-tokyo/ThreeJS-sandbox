@@ -4,7 +4,7 @@ import textureVelocityFrag from '../glsl/gl01textureVelocity.frag';
 import particleVert from '../glsl/gl01particle.vert';
 import particleFrag from '../glsl/gl01particle.frag';
 
-const WIDTH = 500;
+const WIDTH = 200;
 const PARTICLES = WIDTH * WIDTH;
 
 class GCRenderer extends GPUComputationRenderer {
@@ -32,8 +32,6 @@ class GCRenderer extends GPUComputationRenderer {
         
         const err = this.init();
 
-        console.log(this.variables[0]);
-
         if(err) {
             console.log(err);
         }
@@ -45,19 +43,21 @@ class GCRenderer extends GPUComputationRenderer {
         for (let i = 0; i < posArray.length; i += 4) {
             let x, y, z, w;
 
-            x = Math.random() * 500 - 250;
-            y = Math.random() * 500 - 250;
-            z = Math.random() * 500 - 250;
+            let angle = Math.random() * Math.PI * 2;
+
+            x = Math.cos(angle) * Math.random() * 5;
+            y = Math.sin(angle) * Math.random() * 5;
+            z = Math.cos(angle) * Math.random() * 5;
             w = 0;
 
             posArray[i + 0] = x;
             posArray[i + 1] = y;
             posArray[i + 2] = z;
-            posArray[i + 3] = w;x = Math.random() * 500 - 250;
+            posArray[i + 3] = w;
             
-            x = Math.random() * 2 - 1;
-            y = Math.random() * 2 - 1;
-            z = Math.random() * 2 - 1;
+            x = Math.random() - 0.5;
+            y = Math.random() - 0.5;
+            z = Math.random() - 0.5;
             w = 0;
 
             velArray[i + 0] = x;
@@ -127,7 +127,8 @@ class Particles extends Core {
         this.material = new THREE.ShaderMaterial({
             uniforms: this.particleUniforms,
             vertexShader: particleVert,
-            fragmentShader: particleFrag
+            fragmentShader: particleFrag,
+            alphaTest: true
         });
         this.material.extensions.drawBuffers = true;
     }

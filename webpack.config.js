@@ -7,6 +7,7 @@ module.exports = {
     entry:  {
         index: `${srcDir}/js/index.js`,
         gl01: `${srcDir}/js/gl01.js`,
+        gl02: `${srcDir}/js/gl02.js`,
         lib: `${srcDir}/js/lib.js`,
     },
     output: {
