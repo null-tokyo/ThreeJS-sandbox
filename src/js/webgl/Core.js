@@ -2,8 +2,14 @@
  * Core
  * renderer / mainScene / cameraの管理
  */
+const OPTION = {
+    clearColor: 0xDEEEEE,
+    isOrthographic: false
+}
+
 class Core {
-    constructor(){
+    constructor(option){
+        this.opt = Object.assign({}, OPTION, option);
         this.renderer;
         this.mainScene;
         this.camera;
@@ -68,9 +74,8 @@ class Core {
             premultipliedAlpha : false
         });
         this.renderer.autoClear = true;
-        this.renderer.setClearColor( 0xDEEEEE, 1 );
+        this.renderer.setClearColor( this.opt.clearColor, 1 );
         this.renderer.setPixelRatio(window.devicePixelRatio || 1);
-        console.log(this.renderer.context.getExtension('OES_standard_derivatives'));
     }
     /**
      * Main Sceneの作成
@@ -80,14 +85,20 @@ class Core {
     }
     /**
      * カメラの作成
-     * @param {*} isOrthographic 
+     * @param {boolean} isOrthographic 
      */
     createCamera(isOrthographic) {
-        if(isOrthographic){
+        if(this.opt.isOrthographic || isOrthographic){
             return new THREE.OrthographicCamera();
         }
         return new THREE.PerspectiveCamera(45, 1, 0.1, 2000);
-
+    }
+    /**
+     * オプションのアップデート
+     */
+    updateOptions(option) {
+        this.opt = Object.assign({}, this.opt, option);
+        this.renderer.setClearColor( this.opt.clearColor, 1 );
     }
 }
 

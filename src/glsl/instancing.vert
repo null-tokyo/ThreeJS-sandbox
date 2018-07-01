@@ -19,12 +19,14 @@ vec3 applyQuaternionToVector( vec4 q, vec3 v ){
 
 void main () {
     vUv = uv;
-    vPos = applyQuaternionToVector(orientation, position) + offset;
+    vec4 o = orientation;
+
+    vPos = applyQuaternionToVector(o, position) + offset;
     vec3 n = normalize(vPos);
     vPos = vec3(
-        vPos.x + sin(time * 2.0) * n.x * 100.0,
-        vPos.y + sin(time * 2.0) * n.y * 100.0,
-        vPos.z + sin(time * 2.0) * n.z * 100.0
+        vPos.x + sin(time * 2.0) * n.x * 20.0,
+        vPos.y + sin(time * 2.0) * n.y * 10.0,
+        vPos.z + sin(time * 2.0) * n.z * 10.0
     );
     gl_Position = projectionMatrix * modelViewMatrix * vec4(vPos, 1.0);
 }

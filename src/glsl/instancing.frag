@@ -8,8 +8,9 @@ uniform sampler2D toonTex;
 @import ./util/color;
 
 void main() {
-    vec4 color = vec4(0.6, 0.6, 0.6, 1.0);
+    vec4 color = vec4(1.0, 0.6, 0.6, 1.0);
     vec3 normal = getNormal(vPos);
-    vec3 ca1 = diffuseToonColor(color.rgb, normal, lightPos, toonTex);
+    vec3 ca1 = diffuseToonColor(normal, lightPos, toonTex);
+    
     gl_FragColor = vec4(ca1, color.a);
 }
