@@ -76,6 +76,7 @@ class Core {
         this.renderer.autoClear = true;
         this.renderer.setClearColor( this.opt.clearColor, 1 );
         this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
     /**
      * Main Sceneの作成
