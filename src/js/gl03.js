@@ -23,7 +23,7 @@ class WG extends Core {
 
     this.geometory = new THREE.PlaneBufferGeometry(this.width, this.height);
     this.material = new THREE.ShaderMaterial({
-      vertexShade: vertShader,
+      vertexShader: vertShader,
       fragmentShader: FragShader,
       uniforms: this.uniforms
     });
@@ -35,6 +35,7 @@ class WG extends Core {
     this.uniforms.time.value += this.clock.getDelta();
   }
   update() {
+    this._updateUniforms();
     super.update();
   }
 }
