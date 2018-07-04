@@ -14,11 +14,14 @@ class WG extends Core {
     this.camera = super.createCamera();
     super.updatePerspectiveCamera(this.camera, this.width, this.height);
     this._initPlane();
+
+    console.log(this.uniforms);
   }
   _initPlane() {
     this.uniforms = {
       time: {type: 'f', value: 0},
-      resolution: {type: 'v2', value: new THREE.Vector2(this.width, this.height)}
+      resolution: {type: 'v2', value: new THREE.Vector2(this.width, this.height)},
+      tDiffuse: {type: 't', value: new THREE.TextureLoader().load( '/images/sample.jpg' )}
     }
 
     this.geometory = new THREE.PlaneBufferGeometry(this.width, this.height);

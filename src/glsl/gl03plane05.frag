@@ -19,14 +19,12 @@ void main () {
     float t = powerCurve(0.45, 0.55, sin(time));
 
     for(int i = 1; i < 10; i++){
-        float l = length(st - vec2(0.5)) * 0.6;
-        st.x+= l / float(i) * (sin(float(i) * 0.5 * st.y + t) + sin(float(i) * 1.2 * st.y + st.x + t)) * l * sin(t * PI);
-        st.y+= l / float(i) * (cos(float(i) * 1.7 * st.x + t) + cos(float(i) * 0.8 * st.x + st.y + t)) * l * sin(t * PI);
+        st.x+= 0.25 / float(i) * (sin(float(i) * 0.5 * st.y + t) + sin(float(i) * 1.2 * st.y + st.x + t)) * 0.25 * sin(t * PI);
+        st.y-= 0.25 / float(i) * (cos(float(i) * 1.7 * st.x + t) + cos(float(i) * 0.8 * st.x + st.y + t)) * 0.25 * sin(t * PI);
     }
     for(int i = 1; i < 10; i++){
-        float l = length(st - vec2(0.5)) * 0.6;
-        st.x+= l / float(i) * (cos(float(i) * 1.2 * st.y + t) + cos(float(i) * 0.9 * st.y + st.x + t)) * l * sin(t * PI);
-        st.y+= l / float(i) * (sin(float(i) * 0.8 * st.x + t) + sin(float(i) * 1.8 * st.x + st.y + t)) * l * sin(t * PI);
+        st.x-= 0.25 / float(i) * (cos(float(i) * 1.2 * st.y + t) + cos(float(i) * 0.9 * st.y + st.x + t)) * 0.25 * sin(t * PI);
+        st.y+= 0.25 / float(i) * (sin(float(i) * 0.8 * st.x + t) + sin(float(i) * 1.8 * st.x + st.y + t)) * 0.25 * sin(t * PI);
     }
 
     vec4 color = texture2D(tDiffuse, st);
