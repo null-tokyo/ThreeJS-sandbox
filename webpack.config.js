@@ -9,6 +9,11 @@ module.exports = {
         gl01: `${srcDir}/js/gl01.js`,
         gl02: `${srcDir}/js/gl02.js`,
         gl03: `${srcDir}/js/gl03.js`,
+        'gl03-01': `${srcDir}/js/gl03-01.js`,
+        'gl03-02': `${srcDir}/js/gl03-02.js`,
+        'gl03-03': `${srcDir}/js/gl03-03.js`,
+        'gl03-04': `${srcDir}/js/gl03-04.js`,
+        'gl03-05': `${srcDir}/js/gl03-05.js`,
         lib: `${srcDir}/js/lib.js`,
     },
     output: {
