@@ -4,6 +4,11 @@ uniform float time;
 uniform vec2 resolution;
 uniform sampler2D tDiffuse;
 
+uniform float speed;
+uniform int force;
+uniform float offsetX;
+uniform float frequency;
+
 @import ./shaping/powerCurve;
 @import ./util/transform;
 @import ./shape/circle;
@@ -13,38 +18,23 @@ uniform sampler2D tDiffuse;
 #define PI 3.14159263
 
 void main () {
-    vec2 st = (gl_FragCoord.xy - resolution) / min(resolution.x, resolution.y);
+    //vec2 st = (gl_FragCoord.xy - resolution) / min(resolution.x, resolution.y);
+    vec4 color = vec4(0.0);
+    float speed = speed;
+    float offsetX = offsetX * 0.001;
+    int l = force;
+    for(int i = 0; i < 100; i++){
+         if (i >= force){break;}
+        vec2 st = vUv;
+        st.x += offsetX * float(i) * 0.1 * sin(time) * sin(time * speed + (st.y + time) * frequency);
+        color += texture2D(tDiffuse, st) * (1.0 / (float(force) * 2.0));
+        st = vUv;
+        st.x -= offsetX * float(i) * 0.1 * sin(time) * sin(time * speed + (st.y + time)* frequency);
+        color += texture2D(tDiffuse, st) * (1.0 / (float(force) * 2.0));
+        //st.y += 0.3 / float(i) * sin(time);
+    }
 
-    vec4 baseColor = texture2D(tDiffuse, vUv);
-
-    vec2 q = vec2(0.);
-
-    float t = time;
-
-    q.x = fbm( st + 0.00 * t);
-    q.y = fbm( st + vec2(1.0));
-
-    vec2 r = vec2(0.);
-    r.x = fbm( st + 1.0*q + vec2(1.7,9.2)+ 0.15 * t );
-    r.y = fbm( st + 1.0*q + vec2(8.3,2.8)+ 0.126 * t);
-
-    float f = fbm(st+r);
-
-    vec4 color = texture2D(tDiffuse, vUv + f * 0.15 - 0.075);
-
-    vec3 c = mix(vec3(0.829102,0.229102,0.898039),
-                color.rgb,
-                clamp((f*f)*4.0,0.0,1.0));
-
-    c =  mix(c,
-                vec3(0.229102,0.25023,0.232381),
-                clamp(length(q),0.0,1.0));
-
-    c = mix(c,
-                vec3(0.623166667,0.837837,1),
-                clamp(length(r.x),0.0,1.0));
-
-    gl_FragColor = vec4(c, 1.0);
+    gl_FragColor = color;
 
 
     // float speed = 1.0;

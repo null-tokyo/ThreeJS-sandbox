@@ -1,9 +1,9 @@
 {
     "base": {
         "url": "//example.com",
-        "title": "サイトのタイトル",
+        "title": "Create By @nuuullnull_dev",
         "separator": " | ", 
-        "description": "ディスクリプション",
+        "description": "Create By @nuuullnull_dev",
         "ogType": "website",
         "ogLocale": "ja_JP",
         "twType": "summary",
@@ -11,9 +11,9 @@
     },
     "pages": {
         "index": {
-            "title": "TOPページ",
-            "description": "TOPページのディスクリプション",
-            "keywords": "TOPページのキーワード"
+            "title": "Create By @nuuullnull_dev",
+            "description": "Create By @nuuullnull_dev",
+            "keywords": "Create By @nuuullnull_dev"
         },
         "about": {
             "url": "/about",
