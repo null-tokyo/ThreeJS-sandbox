@@ -7,6 +7,7 @@ class Param {
             speed: { value: 1, min: 1, max: 100 },
             force: { value: 0, min: 0, max: 100 },
             frequency: { value: 0, min:0, max: 100 },
+            eta: { value: 0, min:0.0, max: 1.0 },
         };
         if(!conf.debugMode) return;
         this.init();

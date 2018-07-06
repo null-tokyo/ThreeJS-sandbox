@@ -16,6 +16,7 @@ module.exports = {
         'gl03-05': `${srcDir}/js/gl03-05.js`,
         gl04: `${srcDir}/js/gl04.js`,
         gl05: `${srcDir}/js/gl05.js`,
+        gl06: `${srcDir}/js/gl06.js`,
         lib: `${srcDir}/js/lib.js`,
     },
     output: {

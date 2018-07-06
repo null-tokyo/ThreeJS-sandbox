@@ -1,7 +1,7 @@
 import Core from './webgl/Core';
-import param from './const/param4';
-import vertShader from '../glsl/gl03plane.vert';
-import FragShader from '../glsl/gl04plane.frag';
+import param from './const/param5';
+import vertShader from '../glsl/gl05.vert';
+import FragShader from '../glsl/gl06.frag';
 
 class WG extends Core {
   constructor() {
@@ -13,28 +13,49 @@ class WG extends Core {
   init() {
     super.init();
     this.camera = super.createCamera();
+    this.controls = new THREE.OrbitControls( this.camera );
     super.updatePerspectiveCamera(this.camera, this.width, this.height);
+    this._initScene();    
     this._initPlane();
-
-    console.log(this.uniforms);
+  }
+  _initScene() {
+    this.cubeTex = new THREE.CubeTextureLoader()
+	.setPath( '/images/map/' )
+	.load( [
+		'posx.jpg',
+		'negx.jpg',
+		'posy.jpg',
+		'negy.jpg',
+		'posz.jpg',
+		'negz.jpg'
+	] );
+    this.mainScene.background = this.cubeTex;   
   }
   _initPlane() {
+    console.log(this.camera);
     this.uniforms = {
       time: {type: 'f', value: 0},
       resolution: {type: 'v2', value: new THREE.Vector2(this.width, this.height)},
-      tDiffuse: {type: 't', value: new THREE.TextureLoader().load( 'https://www.sway.tokyo/blur/images/sample.jpg' )},
+      tDiffuse: {type: 't', value: new THREE.TextureLoader().load( '/images/sample.jpg' )},
       speed: {type: 'f', value: param.base.speed.value },
-      force: {type: 'i', value: param.base.force.value },
-      offsetX: {type: 'f', value: param.base.offsetX.value },
+      force: {type: 'f', value: param.base.force.value },
       frequency: {type: 'f', value: param.base.frequency.value },
+      eyePosition: {type: 'v3', value: this.camera.position },
+      cubeTexture: {type: 't', value: this.cubeTex },
+      eta: {type: 'f', value: param.base.eta.value}
     }
 
-    this.geometory = new THREE.PlaneBufferGeometry(this.width, this.height);
+    this.geometory = new THREE.IcosahedronBufferGeometry(100, 6);
     this.material = new THREE.ShaderMaterial({
       vertexShader: vertShader,
       fragmentShader: FragShader,
-      uniforms: this.uniforms
+      uniforms: this.uniforms,
+      blending: THREE.NormalBlending,
+      alphaTest: true
     });
+    this.material.transparent = true;
+    this.material.extensions.derivatives = true;
+
     this.mesh = new THREE.Mesh(this.geometory, this.material);
 
     this.mainScene.add(this.mesh);
@@ -57,16 +78,15 @@ const tick = () => {
 };
 tick();
 
-
 param.base.speed.gui.onChange((val) => {
-  wg.uniforms.speed.value = val;
+    wg.uniforms.speed.value = val;
 });
 param.base.force.gui.onChange((val) => {
-  wg.uniforms.force.value = val;
-});
-param.base.offsetX.gui.onChange((val) => {
-  wg.uniforms.offsetX.value = val;
+    wg.uniforms.force.value = val;
 });
 param.base.frequency.gui.onChange((val) => {
-  wg.uniforms.frequency.value = val;
+    wg.uniforms.frequency.value = val;
+});
+param.base.eta.gui.onChange((val) => {
+    wg.uniforms.eta.value = val;
 });
